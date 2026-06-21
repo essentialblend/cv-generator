@@ -1,0 +1,391 @@
+% ----------------
+% CV & Resume 
+% May 2025
+% ----------------
+
+% PREAMBLE
+
+% Document setup and layout directives.
+\documentclass[11pt, a4paper]{article}
+
+\raggedright
+\pagestyle{empty}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{tgpagella}
+
+\usepackage[margin=0.5in]{geometry}
+\usepackage{microtype}
+
+\usepackage{ifthen}
+
+\usepackage[hyphens]{url}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{amssymb}
+
+\hypersetup
+{%
+  pdfauthor={Siddharth Nair},
+  pdftitle={Curriculum Vitae — Siddharth Nair}
+}
+
+\usepackage{luatex85} 
+
+\input{glyphtounicode}
+\pdfgentounicode=1
+
+\usepackage{titlesec}
+	\titleformat{\section}
+		{\bfseries\large}
+		{}
+		{0pt}
+		{}
+		[\vspace{1.5pt}\titlerule\vspace{-6pt}]
+
+\usepackage{enumitem}
+	\linespread{1.01}
+	\setlist[itemize]
+	{
+  		itemsep=2pt,
+  		topsep=2.5pt,
+  		parsep=0pt,
+  		partopsep=0pt,
+  		leftmargin=12pt
+	}
+
+% Variants
+
+% Macro for setting the current active document (CV or Resume) to render.
+\newcommand{\documentVariant}{resume}
+\newcommand{\resumeVariant}{resumeScientific}
+
+% Header macro.
+\newcommand{\makeheader}{
+  \begin{center}
+    {\Huge Siddharth Nair}\\[0.3em]
+    {\small
+      India \ $\mid$\
+      Open to relocate \ $\mid$\
+      \href{mailto:work@siddharths.space}{work@siddharths.space}\ $\mid$\
+      \href{https://github.com/essentialblend}{github.com/essentialblend}\ $\mid$\
+      \href{https://siddharths.space}{siddharths.space}
+    }\\[0.25em]
+  \end{center}
+}
+
+% Skill macros
+\newcommand{\langCPP}
+{
+	C++23%
+}
+
+\newcommand{\langPython}
+{
+	Python%
+}
+
+\newcommand{\langAgda}
+{
+	Agda%
+}
+
+\newcommand{\langLean}
+{
+	Lean%
+}
+
+\newcommand{\langGLSL}
+{
+	GLSL%
+}
+
+\newcommand{\apiOpenGL}
+{
+	OpenGL%
+}
+
+\newcommand{\toolGit}
+{
+	Git%
+}
+
+\newcommand{\toolLPSolve}
+{
+	LP-Solve%
+}
+
+\newcommand{\toolMatplotLib}
+{
+	Matplotlib%
+}
+
+\newcommand{\toolNumpySympy}
+{
+	NumPy, SymPy%
+}
+
+\newcommand{\knowledgeOptimization}
+{
+	Linear Programming (LP), Integer/Binary Integer Programming (IP/BIP), Mixed-Integer Linear Programming (MILP), Algebraic \& Spreadsheet Modelling %
+}
+
+\newcommand{\knowledgeLogic}
+{
+	Propositional and First-Order Logic%
+}
+
+\newcommand{\knowledgeSyntheticGeometry}
+{
+	Synthetic Geometry (Euclid's Elements I-III)%
+}
+
+\newcommand{\knowledgeCalculus}
+{
+	Vector Calculus%
+}
+
+\newcommand{\knowledgeClassMech}
+{
+	Classical Mechanics, Introductory Computational Physics
+}
+
+\newcommand{\knowledgeTypeTheory}
+{
+	Dependent Type Theory, Constructive Logic% 
+}
+
+\newcommand{\knowledgeAbstractAlgebra}
+{
+	Abstract Algebra (Rings and Groups)%
+}
+
+\newcommand{\knowledgeGraphics}
+{
+	Monte Carlo Path Tracing, Multiple Importance Sampling (MIS), Bounding Volume Hierarchies (BVH), Filtering (Box, Gaussian) and Sampling Methods%
+}
+
+\newcommand{\knowledgeSoftware}
+{
+	Object-Oriented Design, Templates/Concepts, Multithreading Fundamentals \\ % 
+}
+
+% Skill-bullet macros
+
+% Graphics Resume Skills
+\newcommand{\langAPISkillGraphicsResume}
+{
+	\textbf{Languages and APIs:} \langCPP,\langGLSL,\langPython,\apiOpenGL \\
+}
+
+\newcommand{\graphicsSkillGraphicsResume}
+{
+	\textbf{Graphics Techniques:} \knowledgeGraphics \\
+}
+
+\newcommand{\mathFoundationSkillGraphicsResume}
+{
+	\textbf{Mathematical Foundations:} \knowledgeCalculus, \knowledgeTypeTheory, \knowledgeLogic \\
+}
+
+% Scientific Resume Skills
+\newcommand{\langAPISkillSciResume}
+{
+	\textbf{Languages \& Tools:} \langCPP,\langAgda,\langPython,\toolGit,\toolNumpySympy,\toolMatplotLib \\
+}
+
+\newcommand{\optimizationSkillSciResume}
+{
+	\textbf{Computational Optimization:} \knowledgeOptimization,\toolLPSolve \\
+}
+
+\newcommand{\TypeTheorySkillSciResume}
+{
+	\textbf{Formal Methods \& Logic:} \knowledgeTypeTheory,\knowledgeLogic \\
+}
+
+\newcommand{\mathFoundationSkillSciResume}
+{
+	\textbf{Mathematical \& Scientific Foundations:} \knowledgeAbstractAlgebra,\knowledgeCalculus,\knowledgeClassMech \\
+}
+
+\newcommand{\physicsSkillSciResume}
+{
+	\textbf{Physics:} \knowledgeClassMech
+}
+
+\newcommand{\softwareDevSkillSciResume}
+{
+	\textbf{C++ Software Development:} \knowledgeSoftware
+}
+
+% Skills section for Graphics and Scientific Resume.
+\newcommand{\skillsSectionGraphicsResume}
+{
+	\langAPISkillGraphicsResume
+	\smallskip
+	\graphicsSkillGraphicsResume
+	\smallskip
+	\mathFoundationSkillGraphicsResume
+}
+
+\newcommand{\skillsSectionScientificResume}
+{
+	\langAPISkillSciResume
+	\smallskip
+	\TypeTheorySkillSciResume
+	\smallskip
+	\softwareDevSkillSciResume
+	\smallskip
+	\optimizationSkillSciResume
+	\smallskip
+	\mathFoundationSkillSciResume
+	% \smallskip
+	% \physicsSkillSciResume
+}
+
+% Projects macros
+\newcommand{\msThesisProject}
+{
+	\textbf{$\mathbb{Z}$ as a Commutative Ring: A Type-Theoretic Formalization in Agda}%
+	\hfill \href{https://siddharths.space/projects/agda-thesis}{siddharths.space/projects/agda-thesis} \\
+	\textit{MSc thesis awarded Distinction\,---\,Supervisor: Prof.\ T.\ Altenkirch}\\[-4pt]
+	\begin{itemize}
+		\item Built a standalone approx. 1\,k LOC Agda development formalizing $\mathbb{N}$, $\mathbb{Z}$, arithmetic operations, equality reasoning, and algebraic properties from first principles
+		\item Verified approx. 100 constructive proofs and instantiated reusable algebraic records certifying $\mathbb{Z}$ as a commutative ring without relying on standard-library algebra proofs
+	\end{itemize}
+}
+
+\newcommand{\shirleyTracerProject}
+{
+	\textbf{Shirley-Tracer}%
+	\hfill \href{https://siddharths.space/projects/shirley-tracer}{siddharths.space/projects/shirley-tracer} \\
+	\textit{A C++ Monte-Carlo path tracer inspired by Peter Shirley's "Ray Tracing in One Weekend" series}\\[-4pt]
+	\begin{itemize}
+		\item Implemented a multi-threaded rendering architecture and key variance reduction techniques including Multiple Importance Sampling (MIS) to combine light and material BSDF sampling strategies
+		\item Accelerated ray-scene intersections with a Bounding Volume Hierarchy (AA-BVH), improving performance
+		\item Developed a versatile material system with metal, dielectrics, and diffuse surfaces with participating media
+		\item Built a positionable camera model supporting adjustable defocus blur and motion blur.
+	\end{itemize}
+}
+
+\newcommand{\openGLDemoProject}
+{
+	\textbf{OpenGL Demo}%
+	\hfill \href{https://siddharths.space/projects/opengl-project}{siddharths.space/projects/opengl-project} \\
+	\textit{An realtime 3D renderer built with C++ and OpenGL to demonstrate various fundamental graphics techniques.}\\[-4pt]
+	\begin{itemize}
+		\item Developed a .obj parser from scratch parsing vertex data with support for albedo, specular, emissive maps
+		\item Implemented Blinn-Phong illumination, shadow mapping, and dynamic day-night lighting
+		\item Authored GLSL shaders for screen-space post process effects and normal maps beyond core requirements
+	\end{itemize}
+}
+
+\newcommand{\indusProject}
+{
+	\textbf{Indus}%
+	\hfill \href{https://github.com/essentialblend/project-indus/tree/rewrite\_cpp23}{siddharths.space/projects/project-indus}\\
+	\textit{Multithreaded PBRT-inspired CPU path tracer in modern C++23 and SFML\,---\,(ongoing development)}\\[-4pt]
+	\begin{itemize}
+		\item Built a modular C++23 CPU path tracer using named modules, concepts-constrained geometry/math types, and polymorphic renderer subsystems
+		\item Implemented numerical robustness and acceleration systems: FMA utilities, interval arithmetic, ULP-offset secondary rays, and a flattened 32-bucket SAH BVH
+		\item Implemented an environment-lit multi-bounce BSDF path integrator with PCG32/stratified sampling, Lambertian/dielectric transport, Fresnel evaluation, and Russian roulette
+		\item Added thin-lens depth of field, object motion blur, RGB film accumulation, Gaussian filtering, PNG output, and \texttt{std::jthread} tile scheduling with progressive SFML preview/HUD
+	\end{itemize}
+
+}
+	
+\newcommand{\educationSection}
+{
+	\begin{tabular}{@{}p{\dimexpr\linewidth-2.5cm\relax}@{}r@{}}
+		MSc Computer Science with Merit\,---\,\textbf{University of Nottingham} & March 2024 \\
+		\multicolumn{2}{@{}p{\linewidth}@{}}{Coursework: Computer Graphics, Program Proofs \& Types, Research Methods, Linear \& Discrete Optimization} \\[1.5ex]
+		BCA Games \& Mobile Software Development\,---\,\textbf{CMR University} & August 2021 \\
+	\end{tabular}
+}
+
+\newcommand{\experienceSection}
+{
+	\textbf{Audio Engineer}, GTPL Hathway\,---\,IN \hfill Feb 2018 -- June 2018\\%
+	\begin{itemize}
+		\item Managed live broadcast audio/media continuity for 24-hour news programming, resolving emergent technical issues with on-air teams
+	\end{itemize}
+	\medskip
+
+	\textbf{Audio-Video Editor}, Chrysalis Communications \,---\, IN \hfill 2015 -- 2018 \\%
+	\begin{itemize}
+		\item Managed end-to-end post-production for infomercials commissioned by state agencies
+	\end{itemize}
+}
+
+\newcommand{\graphicsResumeSummary}
+{
+Computer science graduate passionate about computer graphics with a focus on offline rendering. Built a Monte Carlo path tracer from first principles. Applying C++23 skills to explore physically based rendering concepts in a new custom graphics engine. Seeking a role in rendering, research or engine development.
+}
+
+\newcommand{\scientificResumeSummary}
+{
+MSc Computer Science graduate focused on formal methods, mathematical software, and modern C++ computational projects. Completed a distinction-level thesis implementing a standalone, constructive Agda formalization of the integers as a commutative ring from first principles. Strongest in C++ and machine-verified proof development, with additional foundations in computational optimization, dependent type theory, logic, and mathematical modelling. Seeking an early-career role in formal methods, R\&D engineering, scientific/technical computing, or C++ computational software.
+}
+
+% DOCUMENT BODY
+
+\begin{document}
+	
+	\makeheader
+
+	\ifthenelse{\equal{\documentVariant}{cv}}
+	{
+		%
+	}
+	\ifthenelse{\equal{\documentVariant}{resume}}
+	{
+		\ifthenelse{\equal{\resumeVariant}{resumeGraphics}}
+		{
+			\section*{Summary}
+			\graphicsResumeSummary
+			
+			\section*{Skills}
+			\skillsSectionGraphicsResume
+
+			\section*{Projects}
+			\shirleyTracerProject
+			\smallskip
+			\indusProject
+			\smallskip
+			\openGLDemoProject
+		
+			\section*{Experience}
+			\experienceSection
+			
+			\section*{Education}
+			\educationSection
+			
+
+		}{}
+		\ifthenelse{\equal{\resumeVariant}{resumeScientific}}
+		{
+			\section*{Summary}
+			\scientificResumeSummary
+			
+			\section*{Skills}
+			\skillsSectionScientificResume
+
+			\section*{Projects}
+			\msThesisProject
+			\smallskip
+			\indusProject
+		
+			\section*{Experience}
+			\experienceSection
+			
+			\section*{Education}
+			\educationSection
+		}{}
+
+	}
+
+\end{document}

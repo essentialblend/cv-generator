@@ -1,0 +1,19 @@
+# LaTeX intermediate files
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.xdv
+
+# Normal working build; release PDFs remain trackable
+/main-cv.pdf
+
+# Company-specific CVs stay local
+/applications/
+
+# Operating-system metadata
+.DS_Store
+Thumbs.db
