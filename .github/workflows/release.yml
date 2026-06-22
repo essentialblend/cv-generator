@@ -1,72 +1,72 @@
 name: Publish CV release
 
-  on:
-    workflow_dispatch:
-    push:
-      branches:
-        - main
-      paths:
-        - "releases/snair_cv_*.pdf"
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "releases/snair_cv_*.pdf"
 
-  permissions:
-    contents: write
+permissions:
+  contents: write
 
-  jobs:
-    publish:
-      runs-on: ubuntu-latest
+jobs:
+  publish:
+    runs-on: ubuntu-latest
 
-      steps:
-        - name: Check out repository
-          uses: actions/checkout@v4
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-        - name: Prepare PDF and checksum
-          id: release
-          shell: bash
-          run: |
-            shopt -s nullglob
-            pdfs=(releases/snair_cv_*.pdf)
+      - name: Prepare PDF and checksum
+        id: release
+        shell: bash
+        run: |
+          shopt -s nullglob
+          pdfs=(releases/snair_cv_*.pdf)
 
-            if (( ${#pdfs[@]} != 1 )); then
-              echo "Expected exactly one release PDF; found ${#pdfs[@]}." >&2
-              exit 1
-            fi
+          if (( ${#pdfs[@]} != 1 )); then
+            echo "Expected exactly one release PDF; found ${#pdfs[@]}." >&2
+            exit 1
+          fi
 
-            pdf="${pdfs[0]}"
-            filename="$(basename "$pdf")"
-            date="${filename#snair_cv_}"
-            date="${date%.pdf}"
+          pdf="${pdfs[0]}"
+          filename="$(basename "$pdf")"
+          date="${filename#snair_cv_}"
+          date="${date%.pdf}"
 
-            if [[ ! "$date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
-              echo "Unexpected release filename: $filename" >&2
-              exit 1
-            fi
+          if [[ ! "$date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+            echo "Unexpected release filename: $filename" >&2
+            exit 1
+          fi
 
-            checksum="${pdf%.pdf}.sha256"
+          checksum="${pdf%.pdf}.sha256"
 
-            (
-              cd "$(dirname "$pdf")"
-              sha256sum "$filename" > "$(basename "$checksum")"
-            )
+          (
+            cd "$(dirname "$pdf")"
+            sha256sum "$filename" > "$(basename "$checksum")"
+          )
 
-            echo "pdf=$pdf" >> "$GITHUB_OUTPUT"
-            echo "checksum=$checksum" >> "$GITHUB_OUTPUT"
-            echo "date=$date" >> "$GITHUB_OUTPUT"
+          echo "pdf=$pdf" >> "$GITHUB_OUTPUT"
+          echo "checksum=$checksum" >> "$GITHUB_OUTPUT"
+          echo "date=$date" >> "$GITHUB_OUTPUT"
 
-        - name: Replace latest CV release
-          env:
-            GH_TOKEN: ${{ github.token }}
-            PDF: ${{ steps.release.outputs.pdf }}
-            CHECKSUM: ${{ steps.release.outputs.checksum }}
-            RELEASE_DATE: ${{ steps.release.outputs.date }}
-          shell: bash
-          run: |
-            if gh release view cv-latest >/dev/null 2>&1; then
-              gh release delete cv-latest --cleanup-tag --yes
-            fi
+      - name: Replace latest CV release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PDF: ${{ steps.release.outputs.pdf }}
+          CHECKSUM: ${{ steps.release.outputs.checksum }}
+          RELEASE_DATE: ${{ steps.release.outputs.date }}
+        shell: bash
+        run: |
+          if gh release view cv-latest >/dev/null 2>&1; then
+            gh release delete cv-latest --cleanup-tag --yes
+          fi
 
-            gh release create cv-latest \
-              "$PDF" \
-              "$CHECKSUM" \
-              --target "$GITHUB_SHA" \
-              --title "Siddharth Nair CV — $RELEASE_DATE" \
-              --notes "Current general CV, released $RELEASE_DATE. The attached SHA-256 file verifies the PDF."
+          gh release create cv-latest \
+            "$PDF" \
+            "$CHECKSUM" \
+            --target "$GITHUB_SHA" \
+            --title "Siddharth Nair CV — $RELEASE_DATE" \
+            --notes "Current general CV, released $RELEASE_DATE. The attached SHA-256 file verifies the PDF."
